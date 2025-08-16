@@ -1,0 +1,41 @@
+.booking-system {
+  min-height: calc(100vh - 120px);
+}
+
+.booking-summary {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.booking-summary img {
+  height: 250px;
+  object-fit: cover;
+}
+
+.booking-form-card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.price-summary {
+  border: 1px solid #dee2e6;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.booking-success {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 992px) {
+  .booking-summary {
+    margin-bottom: 2rem;
+  }
+}

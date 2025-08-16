@@ -1,0 +1,35 @@
+.browse-cars {
+  min-height: calc(100vh - 120px);
+}
+
+.filter-card {
+  position: sticky;
+  top: 80px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.car-card {
+  transition: transform 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+}
+
+.car-card img {
+  height: 180px;
+  object-fit: cover;
+}
+
+.car-features .badge {
+  font-weight: normal;
+}
+
+@media (max-width: 768px) {
+  .filter-card {
+    position: static;
+    margin-bottom: 20px;
+  }
+}

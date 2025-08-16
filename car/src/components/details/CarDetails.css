@@ -1,0 +1,31 @@
+.car-details {
+  min-height: calc(100vh - 120px);
+}
+
+.car-image-container {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.details-card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.list-group-item {
+  padding: 1rem 1.25rem;
+}
+
+.features-section {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+@media (max-width: 992px) {
+  .car-image-container {
+    margin-bottom: 2rem;
+  }
+}

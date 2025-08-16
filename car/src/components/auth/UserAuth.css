@@ -1,0 +1,23 @@
+.auth-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+}
+
+.auth-container {
+  max-width: 500px;
+  width: 100%;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-tabs .nav-link {
+  font-weight: 500;
+}
+
+.input-group-text {
+  width: 40px;
+  justify-content: center;
+}

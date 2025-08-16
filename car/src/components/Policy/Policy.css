@@ -1,0 +1,80 @@
+/* General container for the privacy policy page */
+.privacy-policy-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 800px;
+  margin: 40px auto; /* Centers the container and adds space top/bottom */
+  padding: 20px 30px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Main heading for the policy title */
+.privacy-policy-container h1 {
+  font-size: 2em; /* 32px */
+  color: #1a202c;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* Section headings (h2) */
+.privacy-policy-container h2 {
+  font-size: 1.5em; /* 24px */
+  color: #2d3748;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  border-left: 4px solid #4299e1; /* Accent color */
+  padding-left: 10px;
+}
+
+/* General paragraph styling */
+.privacy-policy-container p {
+  font-size: 1em; /* 16px */
+  margin-bottom: 15px;
+  color: #4a5568;
+}
+
+/* Styling for the "Last Updated" text */
+.privacy-policy-container p strong {
+  color: #2d3748;
+}
+
+/* Styling for unordered and ordered lists */
+.privacy-policy-container ul,
+.privacy-policy-container ol {
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+.privacy-policy-container li {
+  margin-bottom: 10px;
+}
+
+/* Styling for the contact information section */
+.privacy-policy-container .contact-info {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .privacy-policy-container {
+    margin: 20px auto;
+    padding: 15px 20px;
+  }
+
+  .privacy-policy-container h1 {
+    font-size: 1.8em;
+  }
+
+  .privacy-policy-container h2 {
+    font-size: 1.3em;
+  }
+}

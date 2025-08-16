@@ -1,0 +1,102 @@
+/* About.css - Example styles to make the page look professional */
+
+.about-us-page .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.about-us-page section {
+    padding: 60px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.about-us-page section:last-child {
+    border-bottom: none;
+}
+
+/* Hero Section */
+.about-hero {
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+.about-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.about-hero .lead {
+    font-size: 1.25rem;
+    color: #6c757d;
+}
+
+/* Other Sections */
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+/* Mission & Vision Layout */
+.mission-vision .container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+.mission-vision .mission-item {
+    flex: 1;
+    text-align: center;
+}
+
+
+/* Why Choose Us List */
+.values-list {
+    list-style: none;
+    padding: 0;
+}
+
+.values-list li {
+    background-color: #f8f9fa;
+    border-left: 5px solid #007bff; /* A nice highlight color */
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.values-list li strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+/* Call to Action Button */
+.about-cta {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+}
+
+.about-cta h2 {
+    color: white;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: white;
+    color: #007bff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: transform 0.2s;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+}

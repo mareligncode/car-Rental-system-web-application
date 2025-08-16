@@ -1,0 +1,26 @@
+.contact-page {
+  min-height: calc(100vh - 120px);
+}
+
+.contact-info {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.contact-form-card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 992px) {
+  .contact-info {
+    margin-bottom: 2rem;
+  }
+}
+
