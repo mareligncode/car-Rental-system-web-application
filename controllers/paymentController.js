@@ -194,6 +194,39 @@ exports.verifyExtensionPayment = async (req, res) => {
     }
 };
 
+// exports.verifyPayment = async (req, res) => {
+//     try {
+//         const { tx_ref } = req.params;
+//         const response = await axios.get(`https://api.chapa.co/v1/transaction/verify/${tx_ref}`, {
+//             headers: {
+//                 'Authorization': `Bearer ${process.env.CHAPA_SECRET_KEY}`
+//             }
+//         });
+
+//         if (response.data.status === 'success') {
+//             const booking = await Booking.findOne({ tx_ref }).populate('car').populate('user');
+
+//             if (booking) {
+//                 booking.status = 'Confirmed';
+//                 await booking.save();
+
+//                 const newNotification = new Notification({
+//                     message: `New booking for ${booking.user?.name || 'Unknown'} — ${booking.car.make} ${booking.car.model} (ID: ${booking._id.toString().slice(-6)}).`,
+//                     link: `/admin/bookings/${booking._id}`
+//                 });
+
+//                 const savedNotification = await newNotification.save();
+//                 req.io.to('admins').emit('new_notification', savedNotification);
+//             }
+//         }
+
+//         res.status(200).send('Payment verification webhook received.');
+//     } catch (error) {
+//         console.error("PAYMENT VERIFICATION ERROR:", error);
+//         res.status(500).send('Server error during payment verification.');
+//     }
+// };
+
 exports.verifyPayment = async (req, res) => {
     try {
         const { tx_ref } = req.params;
@@ -206,9 +239,13 @@ exports.verifyPayment = async (req, res) => {
         if (response.data.status === 'success') {
             const booking = await Booking.findOne({ tx_ref }).populate('car').populate('user');
 
-            if (booking) {
+            if (booking && booking.status !== 'Confirmed') { // Check to prevent duplicate updates
                 booking.status = 'Confirmed';
                 await booking.save();
+
+                // After confirming the booking, set the car's availability to false.
+                await Car.findByIdAndUpdate(booking.car._id, { available: false });
+                // --- END: THIS IS THE NEW CODE TO ADD ---
 
                 const newNotification = new Notification({
                     message: `New booking for ${booking.user?.name || 'Unknown'} — ${booking.car.make} ${booking.car.model} (ID: ${booking._id.toString().slice(-6)}).`,

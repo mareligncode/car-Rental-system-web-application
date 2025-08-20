@@ -1,0 +1,19 @@
+# Dependencies
+/node_modules
+/car/node_modules
+
+# Vite-specific files
+/car/dist
+/car/.env.local
+/car/.env.*.local
+/car/npm-debug.log*
+/car/yarn-debug.log*
+/car/yarn-error.log*
+/car/pnpm-debug.log*
+
+# IDE and OS files
+.DS_Store
+.idea/
+
+# Backend environment variables
+.env

@@ -26,8 +26,14 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: ['user', 'admin','employee'],
         default: 'user'
+    },
+        workplace: {
+        type: String,
+        trim: true,
+        // This is only required if the user is an employee
+        required: [function() { return this.role === 'employee'; }, 'Workplace is required for employees']
     },
     passwordResetToken: String,
     passwordResetExpires: Date,

@@ -5,6 +5,7 @@ import BrowseCars from './components/browse/BrowseCars';
 import CarDetails from './components/details/CarDetails';
 import BookingSystem from './components/booking/BookingSystem';
 import MyBookings from './components/MyBookings/MyBookings';
+import BookingReceipt from './components/MyBookings/BookingReceipt';
 import ContactUsPage from './components/contact/ContactUsPage';
 import About from './components/about/About';
 import Policy from './components/Policy/Policy';
@@ -17,6 +18,8 @@ import AdminRoute from './components/routing/AdminRout';
 import Fouro4 from './components/fouro4/Fouro4';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
+import EmployeeDashboard from './components/employee/EmployeeDashboard';
+import EmployeeRoute from './components/routing/EmployeeRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
@@ -48,6 +51,7 @@ function App() {
                 <Route path="/cars/:id" element={<CarDetails />} />
                 <Route path="/book/:id" element={<BookingSystem />} />
                 <Route path="/my-bookings" element={<MyBookings />} />
+                <Route path="/booking-receipt/:bookingId" element={<BookingReceipt />} />
                 <Route path="/contact" element={<ContactUsPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="policy" element={<Policy/>}/>
@@ -60,6 +64,14 @@ function App() {
                     <AdminRoute>
                       <AdminDashboard />
                     </AdminRoute>
+                  }
+                />
+                  <Route
+                  path="/employee-dashboard"
+                  element={
+                    <EmployeeRoute>
+                      <EmployeeDashboard />
+                    </EmployeeRoute>
                   }
                 />
               <Route path="*" element={<Fouro4/>}/>  

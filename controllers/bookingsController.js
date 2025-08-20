@@ -1,6 +1,8 @@
 const Booking = require('../models/Booking');
 const Car = require('../models/Car');
 const Notification = require('../models/Notification');
+const User = require('../models/User'); // <-- IMPORT THE USER MODEL
+
 
 exports.createBooking = async (req, res) => {
     try {
@@ -60,63 +62,62 @@ exports.getMyBookings = async (req, res) => {
     }
 };
 
+
+
 // exports.cancelBooking = async (req, res) => {
 //     try {
 //         const { bookingId } = req.params;
-//         const booking = await Booking.findById(bookingId)
-//             .populate('user', 'name')
-//             .populate('car', 'make model');
-
-//         if (!booking) {
+//         const bookingToCheck = await Booking.findById(bookingId).populate('user', 'name');
+//         if (!bookingToCheck) {
 //             return res.status(404).json({ error: 'Booking not found' });
 //         }
-//         if (booking.user._id.toString() !== req.userId) {
+//         if (bookingToCheck.user._id.toString() !== req.userId) {
 //             return res.status(403).json({ error: 'User not authorized' });
 //         }
-//         if (booking.status === 'Cancelled') {
+//         if (bookingToCheck.status === 'Cancelled') {
 //             return res.status(400).json({ error: 'Booking is already cancelled' });
 //         }
-
-//         const refundAmount = booking.totalPrice * 0.5;
-
-//         booking.status = 'Cancelled';
-//         booking.cancellationDetails = {
-//             cancelledOn: new Date(),
-//             refundAmount: refundAmount,
-//             refundStatus: 'Pending'
-//         };
-
-//         await booking.save();
-
-//         const message = `Booking for ${booking.car.make} ${booking.car.model} by ${booking.user.name} was cancelled. A refund of $${refundAmount.toFixed(2)} is pending.`;
-
+//         const refundAmount = bookingToCheck.totalPrice * 0.5;
+//         const updatedBooking = await Booking.findByIdAndUpdate(
+//             bookingId,
+//             {
+//                 $set: { // The $set operator is crucial.
+//                     status: 'Cancelled',
+//                     cancellationDetails: {
+//                         cancelledOn: new Date(),
+//                         refundAmount: refundAmount,
+//                         refundStatus: 'Pending'
+//                     }
+//                 }
+//             },
+//             { new: true }
+//         ).populate('user', 'name').populate('car', 'make model'); // We populate here to get the details for the response.
+//         if (!updatedBooking) {
+//             return res.status(404).json({ error: 'Booking could not be updated.' });
+//         }
+//         const message = `Booking for ${updatedBooking.car.make} ${updatedBooking.car.model} by ${updatedBooking.user.name} was cancelled. A refund of $${refundAmount.toFixed(2)} is pending.`;
 //         const newNotification = new Notification({
 //             message: message,
-//             link: `/admin/bookings/${booking._id}`
+//             link: `/admin/bookings/${updatedBooking._id}`
 //         });
-
 //         const savedNotification = await newNotification.save();
-
-//         // Emit to all connected admins
 //         req.io.to('admins').emit('new_notification', savedNotification);
-
 //         res.status(200).json({
 //             message: 'Booking cancellation request received. Refund is pending processing.',
-//             booking
+//             booking: updatedBooking
 //         });
-
 //     } catch (error) {
 //         console.error("CANCEL BOOKING ERROR:", error);
 //         res.status(500).json({ error: 'Server error while cancelling booking' });
 //     }
 // };
 
-// Paste this entire function into your bookingsController.js file, replacing the old one.
-
 exports.cancelBooking = async (req, res) => {
     try {
         const { bookingId } = req.params;
+
         const bookingToCheck = await Booking.findById(bookingId).populate('user', 'name');
+
         if (!bookingToCheck) {
             return res.status(404).json({ error: 'Booking not found' });
         }
@@ -124,13 +125,13 @@ exports.cancelBooking = async (req, res) => {
             return res.status(403).json({ error: 'User not authorized' });
         }
         if (bookingToCheck.status === 'Cancelled') {
-            return res.status(400).json({ error: 'Booking is already cancelled' });
+            return res.status(400).json({ error: 'This booking has already been cancelled' });
         }
-        const refundAmount = bookingToCheck.totalPrice * 0.5;
+        const refundAmount = bookingToCheck.totalPrice * 0.5; // 50% refund policy
         const updatedBooking = await Booking.findByIdAndUpdate(
             bookingId,
             {
-                $set: { // The $set operator is crucial.
+                $set: {
                     status: 'Cancelled',
                     cancellationDetails: {
                         cancelledOn: new Date(),
@@ -140,21 +141,25 @@ exports.cancelBooking = async (req, res) => {
                 }
             },
             { new: true }
-        ).populate('user', 'name').populate('car', 'make model'); // We populate here to get the details for the response.
+        ).populate('user', 'name').populate('car', 'make model');
+
         if (!updatedBooking) {
             return res.status(404).json({ error: 'Booking could not be updated.' });
         }
+        await Car.findByIdAndUpdate(updatedBooking.car._id, { available: true });
         const message = `Booking for ${updatedBooking.car.make} ${updatedBooking.car.model} by ${updatedBooking.user.name} was cancelled. A refund of $${refundAmount.toFixed(2)} is pending.`;
         const newNotification = new Notification({
             message: message,
             link: `/admin/bookings/${updatedBooking._id}`
         });
+
         const savedNotification = await newNotification.save();
         req.io.to('admins').emit('new_notification', savedNotification);
         res.status(200).json({
             message: 'Booking cancellation request received. Refund is pending processing.',
             booking: updatedBooking
         });
+
     } catch (error) {
         console.error("CANCEL BOOKING ERROR:", error);
         res.status(500).json({ error: 'Server error while cancelling booking' });
@@ -211,5 +216,29 @@ exports.extendBooking = async (req, res) => {
     } catch (error) {
         console.error("EXTEND BOOKING ERROR:", error);
         res.status(500).json({ error: 'Server error while extending booking' });
+    }
+};
+
+
+exports.getBookingById = async (req, res) => {
+    try {
+        const { bookingId } = req.params;
+        const booking = await Booking.findById(bookingId)
+            .populate('car')
+            .populate('user', 'name email');
+
+        if (!booking) {
+            return res.status(404).json({ error: 'Booking not found.' });
+        }
+        const requester = await User.findById(req.userId);
+        if (booking.user._id.toString() !== req.userId && requester.role !== 'admin') {
+            return res.status(403).json({ error: 'Not authorized to view this booking.' });
+        }
+
+        res.status(200).json(booking);
+
+    } catch (error) {
+        console.error("GET BOOKING BY ID ERROR:", error);
+        res.status(500).json({ error: 'Server error while fetching the booking.' });
     }
 };

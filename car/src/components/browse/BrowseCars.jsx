@@ -75,8 +75,45 @@ const BrowseCars = () => {
       : <FaSortDown className="ms-1" />;
   };
 
+  // const filteredCars = useMemo(() => {
+  //   let result = cars.filter(car => {
+  //     const matchesSearchTerm = `${car.make} ${car.model}`
+  //       .toLowerCase()
+  //       .includes(searchTerm.toLowerCase());
+  //     const matchesType = filter.type === '' || car.type === filter.type;
+  //     const matchesTransmission = filter.transmission === '' || car.transmission === filter.transmission;
+  //     const matchesPriceRange =
+  //       filter.priceRange === '' ||
+  //       (filter.priceRange === '0-50' && car.price <= 50) ||
+  //       (filter.priceRange === '50-100' && car.price > 50 && car.price <= 100) ||
+  //       (filter.priceRange === '100+' && car.price > 100);
+  //     return matchesSearchTerm && matchesType && matchesTransmission && matchesPriceRange;
+  //   });
+
+  //   if (sortConfig.key) {
+  //     result.sort((a, b) => {
+  //       if (a[sortConfig.key] < b[sortConfig.key]) {
+  //         return sortConfig.direction === 'asc' ? -1 : 1;
+  //       }
+  //       if (a[sortConfig.key] > b[sortConfig.key]) {
+  //         return sortConfig.direction === 'asc' ? 1 : -1;
+  //       }
+  //       return 0;
+  //     });
+  //   }
+
+  //   return result;
+  // }, 
+  // [cars, searchTerm, filter, sortConfig]);
+
   const filteredCars = useMemo(() => {
     let result = cars.filter(car => {
+      // --- START: THIS IS THE ONLY LINE YOU NEED TO ADD ---
+      // First, check if the car is available. If not, immediately exclude it.
+      if (!car.available) return false;
+      // --- END: THIS IS THE ONLY LINE YOU NEED TO ADD ---
+
+      // The rest of your existing filter logic stays exactly the same
       const matchesSearchTerm = `${car.make} ${car.model}`
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
@@ -90,6 +127,7 @@ const BrowseCars = () => {
       return matchesSearchTerm && matchesType && matchesTransmission && matchesPriceRange;
     });
 
+    // Your sorting logic also stays exactly the same
     if (sortConfig.key) {
       result.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -103,8 +141,8 @@ const BrowseCars = () => {
     }
 
     return result;
-  }, [cars, searchTerm, filter, sortConfig]);
-
+  }, 
+  [cars, searchTerm, filter, sortConfig]); // The dependencies remain the same
   const indexOfLastCar = currentPage * carsPerPage;
   const indexOfFirstCar = indexOfLastCar - carsPerPage;
   const currentCars = filteredCars.slice(indexOfFirstCar, indexOfLastCar);

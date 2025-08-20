@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaUser, FaCar, FaBars, FaTimes } from 'react-icons/fa';
+import { FaUser, FaCar, FaBars, FaTimes ,FaClipboardList } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.css';
 import { FaCog } from 'react-icons/fa';
@@ -25,8 +25,8 @@ const Navbar = () => {
   return (
     <nav className={`navbar navbar-expand-lg fixed-top ${scrolled ? 'scrolled' : ''}`}>
       <div className="container">
-        <Link className="navbar-brand" to="/">
-          <FaCar className="me-2" /> RentACar
+        <Link className="navbar-brand text-light" to="/">
+          <FaCar className="me-2 text-light" /> RentACar
         </Link>
         
         <button 
@@ -111,6 +111,13 @@ const Navbar = () => {
                         </Link>
                     </li>
                 )}
+                 {user && (user.role === 'employee' || user.role === 'admin') && (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/employee-dashboard">
+                                    <FaClipboardList className="me-1" /> Employee
+                                </Link>
+                            </li>
+                        )}
             </ul>
         </div>
          

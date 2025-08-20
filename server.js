@@ -11,6 +11,10 @@ const bookingRoutes = require('./routes/bookings');
 const contactRoutes = require('./routes/contactRoutes');
 const paymentRoutes = require('./routes/payment');
 const notificationRoutes = require('./routes/notifications');
+const employeeRoutes = require('./routes/employees'); 
+const taskRoutes = require('./routes/tasks'); 
+
+
 const app = express();
 
 const server = http.createServer(app);
@@ -61,6 +65,11 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/employees', employeeRoutes); // Use employee routes
+app.use('/api/tasks', taskRoutes); // <-- ADD THIS LINE
+
+
+
 const PORT = process.env.PORT || 5000;
 // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 server.listen(PORT, () => console.log(`Server with WebSocket support running on port ${PORT}`));
@@ -97,4 +106,6 @@ server.listen(PORT, () => console.log(`Server with WebSocket support running on 
 3.payment method 
 4.password reset
 5.discount
+6.recipt
+7.contract and make contract document
 */

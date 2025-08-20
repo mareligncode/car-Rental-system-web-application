@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Table, Button, Container, Card, Alert, Spinner, Modal, Form } from 'react-bootstrap';
-import { FaTrash, FaCar, FaCalendarPlus } from 'react-icons/fa';
+import { FaTrash, FaCar, FaCalendarPlus ,FaFileInvoice} from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
@@ -220,7 +221,7 @@ const MyBookings = () => {
                         {booking.status}
                       </span>
                     </td> */}
-                    <td>
+                    {/* <td>
                       {booking.status === 'Confirmed' || booking.status === 'Extended' ? (
                           <>
                             <Button variant="outline-danger" size="sm" className="me-2 mb-1" onClick={() => handleShowCancelModal(booking)}>
@@ -233,7 +234,41 @@ const MyBookings = () => {
                       ) : (
                          <span className="text-muted small">No actions available</span>
                       )}
-                    </td>
+                    </td> */}
+                    <td>
+  <div className="d-flex flex-wrap">
+
+    {/* NEW: The Receipt Button is added here for every booking */}
+    <Button 
+        as={Link} 
+        to={`/booking-receipt/${booking._id}`} 
+        variant="outline-success" 
+        size="sm" 
+        className="me-2 mb-1"
+    >
+      <FaFileInvoice className="me-1" /> Receipt
+    </Button>
+
+    {/* KEPT: Your original logic for showing Cancel/Extend buttons is still here */}
+    {(booking.status === 'Confirmed' || booking.status === 'Extended') && (
+      <>
+        <Button variant="outline-danger" size="sm" className="me-2 mb-1" onClick={() => handleShowCancelModal(booking)}>
+          <FaTrash className="me-1" /> Cancel
+        </Button>
+        <Button variant="outline-primary" size="sm" className="mb-1" onClick={() => handleShowExtendModal(booking)}>
+          <FaCalendarPlus className="me-1" /> Extend
+        </Button>
+      </>
+    )}
+
+    {/* KEPT: Your original logic for showing a message on cancelled bookings */}
+    {isCancelled && (
+      <span className="text-muted small">No actions available</span>
+    )}
+    
+  </div>
+</td>
+                    
                   </tr>
                 );
               })}

@@ -1,0 +1,38 @@
+
+.receipt-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.receipt-card {
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.receipt-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Print-specific styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .receipt-container, .receipt-container * {
+        visibility: visible;
+    }
+    .receipt-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    .receipt-actions {
+        display: none;
+    }
+    .receipt-card {
+        box-shadow: none;
+        border: none;
+    }
+}

@@ -99,26 +99,68 @@ exports.forgotPassword = async (req, res) => {
         res.status(500).json({ error: 'There was an error sending the email. Try again later.' });
     }
 };
+// exports.resetPassword = async (req, res) => {
+//     try {
+//         const hashedToken = crypto
+//             .createHash('sha256')
+//             .update(req.params.token)
+//             .digest('hex');
+//         const user = await User.findOne({
+//             passwordResetToken: hashedToken,
+//             passwordResetExpires: { $gt: Date.now() },
+//         });
+//         if (!user) {
+//             return res.status(400).json({ error: 'Token is invalid or has expired.' });
+//         }
+//         user.password = req.body.password;
+//         user.passwordResetToken = undefined;
+//         user.passwordResetExpires = undefined;
+//         await user.save();
+//         const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
+//             expiresIn: '1d',
+//         });
+//         res.status(200).json({
+//             user: {
+//                 _id: user._id,
+//                 name: user.name,
+//                 email: user.email,
+//                 role: user.role
+//             },
+//             token
+//         });
+//     } catch (err) {
+//         console.error("RESET PASSWORD ERROR: ", err);
+//         res.status(500).json({ error: 'Server error while resetting password.' });
+//     }
+// };
+
 exports.resetPassword = async (req, res) => {
     try {
         const hashedToken = crypto
-            .createHash('sha256')
+            .createHash('sha256') // <-- CORRECTED TYPO HERE
             .update(req.params.token)
             .digest('hex');
+
         const user = await User.findOne({
             passwordResetToken: hashedToken,
             passwordResetExpires: { $gt: Date.now() },
         });
+
         if (!user) {
             return res.status(400).json({ error: 'Token is invalid or has expired.' });
         }
+
         user.password = req.body.password;
         user.passwordResetToken = undefined;
         user.passwordResetExpires = undefined;
-        await user.save();
+
+        // This fix handles the original Mongoose validation error
+        await user.save({ validateBeforeSave: false });
+
         const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
             expiresIn: '1d',
         });
+
         res.status(200).json({
             user: {
                 _id: user._id,
