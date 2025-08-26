@@ -108,4 +108,5 @@ server.listen(PORT, () => console.log(`Server with WebSocket support running on 
 5.discount
 6.recipt
 7.contract and make contract document
+8.server
 */
