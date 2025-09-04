@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import './Homepage.css'
+import './HomePage.css'
 import bgImage1 from '../../assets/images/car18.webp';
 import bgImage2 from '../../assets/images/car16.webp'; 
 import bgImage3 from '../../assets/images/car6.jpg'; 
