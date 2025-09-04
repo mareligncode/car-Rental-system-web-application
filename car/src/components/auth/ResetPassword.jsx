@@ -24,7 +24,7 @@ const ResetPassword = () => {
         setLoading(true);
 
         try {
-            const res = await axios.patch(`http://localhost:5000/api/auth/reset-password/${token}`, { password });
+            const res = await axios.patch(`https://car-rental-system-web-application.onrender.com/api/auth/reset-password/${token}`, { password });
             
             localStorage.setItem('token', res.data.token);
             await login(res.data.user.email, password);
