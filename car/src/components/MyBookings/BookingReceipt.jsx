@@ -16,7 +16,7 @@ const BookingReceipt = () => {
         const fetchBooking = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get(`http://localhost:5000/api/bookings/${bookingId}`, {
+                const res = await axios.get(`https://car-rental-system-web-application.onrender.com/api/bookings/${bookingId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setBooking(res.data);
