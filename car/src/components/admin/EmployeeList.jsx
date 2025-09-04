@@ -8,7 +8,7 @@ const EmployeeList = ({ employees, onEmployeeDeleted }) => {
         if (window.confirm('Are you sure you want to permanently delete this employee?')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/employees/${id}`, {
+                await axios.delete(`https://car-rental-system-web-application.onrender.com/api/employees/${id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 toast.warn('Employee has been deleted.');
