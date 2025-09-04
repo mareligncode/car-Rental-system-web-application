@@ -29,7 +29,7 @@ const BrowseCars = () => {
       }
       try {
         setLoading(true);
-        const res = await axios.get('http://localhost:5000/api/cars');
+        const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/cars');
         setCars(res.data);
       } catch (err) {
         setError('Could not fetch cars from the server. Please try again later.');
