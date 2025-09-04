@@ -24,7 +24,7 @@ const EmployeeForm = ({ onEmployeeAdded }) => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/employees', formData, {
+            await axios.post('https://car-rental-system-web-application.onrender.com/api/employees', formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
