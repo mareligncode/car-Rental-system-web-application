@@ -11,7 +11,7 @@
 
 //     const fetchCars = async () => {
 //         try {
-//             const res = await axios.get('http://localhost:5000/api/cars');
+//             const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/cars');
 //             setCars(res.data);
 //         } catch (error) {
 //             console.error("Failed to fetch cars:", error);
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
     const [error, setError] = useState('');
     const fetchCars = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/cars');
+            const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/cars');
             setCars(res.data);
         } catch (error) {
             console.error("Failed to fetch cars:", error);
@@ -89,7 +89,7 @@ const AdminDashboard = () => {
     const fetchEmployees = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/employees', {
+            const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/employees', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setEmployees(res.data);
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
     const fetchTasks = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/tasks', {
+            const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/tasks', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setTasks(res.data);
@@ -134,7 +134,7 @@ const AdminDashboard = () => {
         if (window.confirm("Are you sure you want to delete this task? This cannot be undone.")) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/tasks/${taskId}`, {
+                await axios.delete(`https://car-rental-system-web-application.onrender.com/api/tasks/${taskId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 toast.warn("Task deleted.");
