@@ -66,9 +66,9 @@ const handleSubmit = async (e) => {
     };
     try {
         if (selectedCar) {
-            await axios.put(`http://localhost:5000/api/cars/${selectedCar._id}`, submissionData, config);
+            await axios.put(`https://car-rental-system-web-application.onrender.com/api/cars/${selectedCar._id}`, submissionData, config);
         } else {
-            await axios.post('http://localhost:5000/api/cars', submissionData, config);
+            await axios.post('https://car-rental-system-web-application.onrender.com/api/cars', submissionData, config);
         }
         onSuccess();
         setFormData({ make: '', model: '', year: '', type: 'Sedan', seats: '5', price: '', transmission: 'Automatic', fuelType: 'Gasoline', features: '' });
