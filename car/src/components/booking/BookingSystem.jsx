@@ -29,7 +29,7 @@ const BookingSystem = () => {
     useEffect(() => {
         const fetchCar = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/cars/${carId}`);
+                const res = await axios.get(`https://car-rental-system-web-application.onrender.com/api/cars/${carId}`);
                 setCar(res.data);
             } catch (err) {
                 console.log(err)
@@ -69,7 +69,7 @@ const BookingSystem = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:5000/api/payment/initialize', bookingData, {
+            const response = await axios.post('https://car-rental-system-web-application.onrender.com/api/payment/initialize', bookingData, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
