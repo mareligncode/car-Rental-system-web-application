@@ -21,7 +21,7 @@ const NotificationBell = () => {
         const fetchNotifications = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get('http://localhost:5000/api/notifications', {
+                const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/notifications', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setNotifications(res.data);
@@ -31,7 +31,7 @@ const NotificationBell = () => {
         };
 
         fetchNotifications();
-        const socket = io('http://localhost:5000');
+        const socket = io('https://car-rental-system-web-application.onrender.com');
         const token = localStorage.getItem('token');
         if (token) {
             socket.emit('authenticate', token);
@@ -65,7 +65,7 @@ const NotificationBell = () => {
         setNotifications(notifications.map(n => ({ ...n, read: true })));
         try {
             await Promise.all(
-                unreadIds.map(id => axios.patch(`http://localhost:5000/api/notifications/${id}/read`, {}, config))
+                unreadIds.map(id => axios.patch(`https://car-rental-system-web-application.onrender.com/api/notifications/${id}/read`, {}, config))
             );
         } catch (err) {
             console.error("Failed to mark notifications as read on the server:", err);
@@ -75,7 +75,7 @@ const NotificationBell = () => {
         e.stopPropagation();
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/notifications/${id}`, {
+            await axios.delete(`https://car-rental-system-web-application.onrender.com/api/notifications/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setNotifications(notifications.filter(n => n._id !== id));
