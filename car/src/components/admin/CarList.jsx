@@ -6,7 +6,7 @@ const CarList = ({ cars, onEdit, onDelete }) => {
         if (window.confirm('Are you sure you want to delete this car?')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/cars/${id}`, {
+                await axios.delete(`https://car-rental-system-web-application.onrender.com/api/cars/${id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 onDelete();
