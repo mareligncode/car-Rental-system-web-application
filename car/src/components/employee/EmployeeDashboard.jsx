@@ -16,7 +16,7 @@ const EmployeeDashboard = () => {
         if (!user) return;
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/tasks/mytasks', {
+            const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/tasks/mytasks', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setTasks(res.data);
@@ -36,7 +36,7 @@ const EmployeeDashboard = () => {
     const handleCompleteTask = async (taskId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.patch(`http://localhost:5000/api/tasks/${taskId}/complete`, {}, {
+            await axios.patch(`https://car-rental-system-web-application.onrender.com/api/tasks/${taskId}/complete`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success("Task marked as complete!");
