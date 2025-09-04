@@ -13,7 +13,7 @@ const CarDetails = () => {
         const fetchCarDetails = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:5000/api/cars/${id}`);
+                const res = await axios.get(`https://car-rental-system-web-application.onrender.com/api/cars/${id}`);
                 setCar(res.data);
             } catch (err) {
                 setError('Could not find the requested car.');
