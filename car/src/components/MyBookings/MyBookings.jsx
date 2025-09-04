@@ -39,7 +39,7 @@ const MyBookings = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const res = await axios.get('http://localhost:5000/api/bookings/my-bookings', config);
+      const res = await axios.get('https://car-rental-system-web-application.onrender.com/api/bookings/my-bookings', config);
       setBookings(res.data || []);
     } catch (err) {
       setError('Failed to fetch your bookings. Please try again later.');
@@ -79,7 +79,7 @@ const MyBookings = () => {
     setIsActionLoading(true);
     try {
         const token = localStorage.getItem('token');
-        const res = await axios.patch(`http://localhost:5000/api/bookings/${selectedBooking._id}/cancel`, {}, {
+        const res = await axios.patch(`https://car-rental-system-web-application.onrender.com/api/bookings/${selectedBooking._id}/cancel`, {}, {
             headers: { Authorization: `Bearer ${token}` }
         });
         toast.info(res.data.message);
@@ -97,7 +97,7 @@ const MyBookings = () => {
     setIsActionLoading(true);
     try {
         const token = localStorage.getItem('token');
-        const res = await axios.post(`http://localhost:5000/api/payment/initialize-extension/${selectedBooking._id}`,
+        const res = await axios.post(`https://car-rental-system-web-application.onrender.com/api/payment/initialize-extension/${selectedBooking._id}`,
             { newEndDate },
             { headers: { Authorization: `Bearer ${token}` } }
         );
