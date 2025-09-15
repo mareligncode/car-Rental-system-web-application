@@ -48,7 +48,7 @@ exports.initializePayment = async (req, res) => {
             last_name: user.name.split(' ').slice(1).join(' ') || user.name.split(' ')[0],
             tx_ref: tx_ref,
             callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify/${tx_ref}`,
-            return_url: `http://localhost:5173/my-bookings?tx_ref=${tx_ref}`,
+            return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings?tx_ref=${tx_ref}`,
             "customization[title]": "Car Rental Payment",
             "customization[description]": `Booking for ${car.make} ${car.model}`
         };
@@ -110,7 +110,7 @@ exports.initializeExtensionPayment = async (req, res) => {
             tx_ref: extension_tx_ref,
             // IMPORTANT: The callback URL now includes the booking ID
             callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify-extension/${bookingId}/${extension_tx_ref}`,
-            return_url: `http://localhost:5173/my-bookings`,
+            return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings`,
             "customization[title]": "Booking Extension Payment",
             "customization[description]": `Extending booking for ${booking.car.make}`
         };
