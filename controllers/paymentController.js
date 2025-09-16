@@ -109,10 +109,13 @@ exports.initializeExtensionPayment = async (req, res) => {
             last_name: 'Booking Extension',
             tx_ref: extension_tx_ref,
             // IMPORTANT: The callback URL now includes the booking ID
-            callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify-extension/${bookingId}/${extension_tx_ref}`,
-            return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings`,
-            "customization[title]": "Booking Extension Payment",
-            "customization[description]": `Extending booking for ${booking.car.make}`
+           callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify/${tx_ref}`,
+
+    // User browser → your frontend
+    return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings?tx_ref=${tx_ref}`,
+
+    "customization[title]": "Car Rental Payment",
+    "customization[description]": `Booking for ${car.make} ${car.model}`
         };
 
         const response = await axios.post('https://api.chapa.co/v1/transaction/initialize', chapaData, {
