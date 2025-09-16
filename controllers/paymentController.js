@@ -48,7 +48,8 @@ exports.initializePayment = async (req, res) => {
             last_name: user.name.split(' ').slice(1).join(' ') || user.name.split(' ')[0],
             tx_ref: tx_ref,
             callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify/${tx_ref}`,
-            return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings?tx_ref=${tx_ref}`,
+            // return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings?tx_ref=${tx_ref}`,
+           return_url: `https://car-rental-system-web-application-2.onrender.com`,
             "customization[title]": "Car Rental Payment",
             "customization[description]": `Booking for ${car.make} ${car.model}`
         };
