@@ -77,8 +77,8 @@ exports.forgotPassword = async (req, res) => {
         }
         const resetToken = user.createPasswordResetToken();
         await user.save({ validateBeforeSave: false });
-        // const resetURL = `https://car-rental-system-web-application-2.onrender.com/reset-password/${resetToken}`;
-        const resetURL = `https://car-rental-system-web-application-2.onrender.com`;
+         const resetURL = `https://car-rental-system-web-application-2.onrender.com/reset-password/${resetToken}`;
+        //const resetURL = `https://car-rental-system-web-application-2.onrender.com`;
 
         const message = `hello $Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
         await sendEmail({
