@@ -106,17 +106,13 @@ exports.initializeExtensionPayment = async (req, res) => {
             amount: additionalCost.toFixed(2),
             currency: 'ETB',
             email: user.email,
-            first_name: user.name,
-            last_name: 'Booking Extension',
+            first_name: user.name.split(' ')[0],
+            last_name: user.name.split(' ').slice(1).join(' ') || user.name.split(' ')[0],
             tx_ref: extension_tx_ref,
-            // IMPORTANT: The callback URL now includes the booking ID
-           callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify/${tx_ref}`,
-
-    // User browser → your frontend
-    return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings?tx_ref=${tx_ref}`,
-
-    "customization[title]": "Car Rental Payment",
-    "customization[description]": `Booking for ${car.make} ${car.model}`
+            callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify-extension/${bookingId}/${extension_tx_ref}`,
+            return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings?tx_ref=${extension_tx_ref}`,
+            "customization[title]": "Car Rental Extension Payment",
+            "customization[description]": `Extension for ${booking.car.make} ${booking.car.model}`
         };
 
         const response = await axios.post('https://api.chapa.co/v1/transaction/initialize', chapaData, {
@@ -137,6 +133,73 @@ exports.initializeExtensionPayment = async (req, res) => {
         res.status(500).json({ error: 'Server error while initializing extension payment.' });
     }
 };
+
+// exports.initializeExtensionPayment = async (req, res) => {
+//     try {
+//         const { bookingId } = req.params;
+//         const { newEndDate } = req.body;
+//         const userId = req.userId;
+
+//         const booking = await Booking.findById(bookingId).populate('car');
+//         const user = await User.findById(userId);
+
+//         if (!booking || !user || booking.user.toString() !== userId) {
+//             return res.status(404).json({ error: 'Booking not found or unauthorized.' });
+//         }
+
+//         const originalEndDate = booking.isExtended ? new Date(booking.extendedEndDate) : new Date(booking.endDate);
+//         const requestedEndDate = new Date(newEndDate);
+
+//         const maxExtensionDate = new Date(originalEndDate);
+//         maxExtensionDate.setDate(maxExtensionDate.getDate() + 20);
+//         if (requestedEndDate > maxExtensionDate) {
+//             return res.status(400).json({ error: 'Cannot extend beyond 20 days.' });
+//         }
+
+//         const additionalDays = Math.ceil((requestedEndDate - originalEndDate) / (1000 * 3600 * 24));
+//         if (additionalDays <= 0) {
+//             return res.status(400).json({ error: 'New end date must be later than the current one.' });
+//         }
+
+//         // Calculate additional cost with 5% daily penalty
+//         const additionalCost = additionalDays * booking.car.price * 1.05;
+//         const extension_tx_ref = `ext-${bookingId}-${Date.now()}`;
+
+//         const chapaData = {
+//             amount: additionalCost.toFixed(2),
+//             currency: 'ETB',
+//             email: user.email,
+//             first_name: user.name,
+//             last_name: 'Booking Extension',
+//             tx_ref: extension_tx_ref,
+//             // IMPORTANT: The callback URL now includes the booking ID
+//            callback_url: `https://car-rental-system-web-application.onrender.com/api/payment/verify/${tx_ref}`,
+
+//     // User browser → your frontend
+//     return_url: `https://car-rental-system-web-application-2.onrender.com/my-bookings?tx_ref=${tx_ref}`,
+
+//     "customization[title]": "Car Rental Payment",
+//     "customization[description]": `Booking for ${car.make} ${car.model}`
+//         };
+
+//         const response = await axios.post('https://api.chapa.co/v1/transaction/initialize', chapaData, {
+//             headers: {
+//                 'Authorization': `Bearer ${process.env.CHAPA_SECRET_KEY}`,
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+
+//         if (response.data.status === 'success') {
+//             res.status(200).json({ checkout_url: response.data.data.checkout_url });
+//         } else {
+//             res.status(400).json({ error: 'Failed to initialize extension payment.' });
+//         }
+
+//     } catch (error) {
+//         console.error("EXTENSION PAYMENT ERROR:", error.response ? error.response.data : error.message);
+//         res.status(500).json({ error: 'Server error while initializing extension payment.' });
+//     }
+// };
 
 exports.verifyExtensionPayment = async (req, res) => {
     try {
