@@ -70,99 +70,65 @@ exports.login = async (req, res) => {
     }
 };
 exports.forgotPassword = async (req, res) => {
-    // try {
-    //     const user = await User.findOne({ email: req.body.email });
-    //     if (!user) {
-    //         return res.status(200).json({ message: 'if user  with this email  exists we will send link to reset' });
-    //     }
-    //     const resetToken = user.createPasswordResetToken();
-    //     await user.save({ validateBeforeSave: false });
-    //      const resetURL = `https://car-rental-system-web-application-2.onrender.com/reset-password/${resetToken}`;
-    //     //const resetURL = `https://car-rental-system-web-application-2.onrender.com`;
-
-    //     const message = `hello $Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
-    //     await sendEmail({
-    //         email: user.email,
-    //         subject: 'Your password reset token (valid for 10 min)',
-    //         message,
-    //     });
-    //     res.status(200).json({
-    //         status: 'success',
-    //         message: 'Token sent to email!',
-    //     });
-    // } catch (err) {
-    //     const user = await User.findOne({ email: req.body.email });
-    //     if (user) {
-    //         user.passwordResetToken = undefined;
-    //         user.passwordResetExpires = undefined;
-    //         await user.save({ validateBeforeSave: false });
-    //     }
-    //     console.error("FORGOT PASSWORD ERROR: ", err);
-    //     res.status(500).json({ error: 'There was an error sending the email. Try again later.' });
-    // }
     try {
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(200).json({ message: 'if user with this email exists we will send link to reset' });
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.status(200).json({ message: 'If a user with this email exists, we will send a link to reset.' });
+        }
 
-  const resetToken = user.createPasswordResetToken();
-  await user.save({ validateBeforeSave: false });
+        const resetToken = user.createPasswordResetToken();
+        await user.save({ validateBeforeSave: false });
 
-  const resetURL = `https://car-rental-system-web-application-2.onrender.com/reset-password/${resetToken}`;
-  const message = `hello $Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.`;
+        const resetURL = `https://car-rental-system-web-application-2.onrender.com/reset-password/${resetToken}`;
+        const message = `Hello, forgot your password? Submit a PATCH request with your new password to: ${resetURL}.`;
 
-  await sendEmail({
-      email: user.email,
-      subject: 'Your password reset token (valid for 10 min)',
-      message,
-  });
+        await sendEmail({
+            email: user.email,
+            subject: 'Your password reset token (valid for 10 min)',
+            message,
+        });
 
-  res.status(200).json({ status: 'success', message: 'Token sent to email!' });
-} catch (err) {
-  const user = await User.findOne({ email: req.body.email });
-  if (user) {
-      user.passwordResetToken = undefined;
-      user.passwordResetExpires = undefined;
-      await user.save({ validateBeforeSave: false });
-  }
-  console.error("FORGOT PASSWORD ERROR: ", err);
-  res.status(500).json({ error: 'There was an error sending the email. Try again later.' });
-}
-
+        return res.status(200).json({ status: 'success', message: 'Token sent to email!' });
+    } catch (err) {
+        console.error("FORGOT PASSWORD ERROR: ", err);
+        res.status(500).json({ error: 'There was an error sending the email. Try again later.' });
+    }
 };
-// exports.resetPassword = async (req, res) => {
+// exports.forgotPassword = async (req, res) => {
 //     try {
-//         const hashedToken = crypto
-//             .createHash('sha256')
-//             .update(req.params.token)
-//             .digest('hex');
-//         const user = await User.findOne({
-//             passwordResetToken: hashedToken,
-//             passwordResetExpires: { $gt: Date.now() },
-//         });
+//         const user = await User.findOne({ email: req.body.email });
 //         if (!user) {
-//             return res.status(400).json({ error: 'Token is invalid or has expired.' });
+//             return res.status(200).json({ message: 'if user  with this email  exists we will send link to reset' });
 //         }
-//         user.password = req.body.password;
-//         user.passwordResetToken = undefined;
-//         user.passwordResetExpires = undefined;
-//         await user.save();
-//         const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
-//             expiresIn: '1d',
+//         const resetToken = user.createPasswordResetToken();
+//         await user.save({ validateBeforeSave: false });
+//          const resetURL = `https://car-rental-system-web-application-2.onrender.com/reset-password/${resetToken}`;
+//         //const resetURL = `https://car-rental-system-web-application-2.onrender.com`;
+
+//         const message = `hello $Forgot your password? Submit a PATCH request with your new password to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+//         await sendEmail({
+//             email: user.email,
+//             subject: 'Your password reset token (valid for 10 min)',
+//             message,
 //         });
 //         res.status(200).json({
-//             user: {
-//                 _id: user._id,
-//                 name: user.name,
-//                 email: user.email,
-//                 role: user.role
-//             },
-//             token
+//             status: 'success',
+//             message: 'Token sent to email!',
 //         });
 //     } catch (err) {
-//         console.error("RESET PASSWORD ERROR: ", err);
-//         res.status(500).json({ error: 'Server error while resetting password.' });
+//         const user = await User.findOne({ email: req.body.email });
+//         if (user) {
+//             user.passwordResetToken = undefined;
+//             user.passwordResetExpires = undefined;
+//             await user.save({ validateBeforeSave: false });
+//         }
+//         console.error("FORGOT PASSWORD ERROR: ", err);
+//         res.status(500).json({ error: 'There was an error sending the email. Try again later.' });
 //     }
+  
+
 // };
+
 
 exports.resetPassword = async (req, res) => {
     try {
