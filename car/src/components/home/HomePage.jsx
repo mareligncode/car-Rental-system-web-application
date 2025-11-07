@@ -45,7 +45,7 @@ const Homepage = () => {
             <Col lg={7} className="hero-content">
               <h3 className="hero-title">wellcome to our rent</h3>
               <p className="hero-subtitle">
-               car rental system intern project
+               car rental system
               </p>
             </Col>
            
